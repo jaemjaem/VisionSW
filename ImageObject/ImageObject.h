@@ -12,14 +12,16 @@
 class IMAGEOBJECTLIBRARY_API ImageObject
 {
 public:
-	ImageObject(int const width, int const height);
-
-	int Width() const;
-	int Height() const;
+	ImageObject();
+	ImageObject(const cv::Mat& img);
+	
+	ImageObject& operator=(const cv::Mat& other);
+	const cv::Mat& Clone() const;
 
 private:
-	std::vector<int> image_buf_;
+	std::vector<uchar> image_buf_;
 
-	int width_;
-	int height_;
+	cv::Mat img_;
+	int width_ = 0;
+	int height_ = 0;
 };

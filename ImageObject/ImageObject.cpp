@@ -4,20 +4,41 @@
 #include "ImageObject.h"
 
 
-ImageObject::ImageObject(int const width, int const height)
-	: width_{ width }, height_{ height }
+ImageObject::ImageObject()
 {
 
 }
 
 
-int ImageObject::Width() const 
-{ 
-	return width_; 
+ImageObject::ImageObject(const cv::Mat& img)
+	: img_{img.clone()}, width_{ img.cols }, height_{img.rows}
+{
+    if (img.isContinuous())
+    {        
+        image_buf_.assign((int*)img.datastart, (int*)img.dataend);
+    }
+    else 
+    {
+        for (int i = 0; i < img.rows; ++i)
+        {
+            image_buf_.insert(image_buf_.end(), img.ptr<uchar>(i), img.ptr<uchar>(i) + img.cols);
+        }
+    }
+
+}
+
+ImageObject& ImageObject::operator=(const cv::Mat& other)
+{
+    this->img_ = other.clone();
+
+    this->width_ = this->img_.cols;
+    this->height_ = this->img_.rows;
+
+    return *this;
 }
 
 
-int ImageObject::Height() const
-{ 
-	return height_; 
+const cv::Mat& ImageObject::Clone() const
+{
+    return img_;
 }

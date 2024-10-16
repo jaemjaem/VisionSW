@@ -1,20 +1,28 @@
 #include "pch.h"
 
 #include "OpenCVBlur.h"
-#include "ImageObject.h"
 
-void Imshow()
+// return false 의 경우 처리 필요
+// 커널 최소 size 21x21
+bool ImageBlur(const ImageObject* src, ImageObject* dst, const int kernelSize)
 {
-	cv::Mat img = cv::imread("lena.bmp");
+	if (src == nullptr)
+	{
+		return false;
+	}
+	
+	auto src_img = src->Clone();
 
-	cv::imshow("image", img);
-	cv::waitKey();
-}
+	cv::Mat dst_img;
 
-void test()
-{
-	ImageObject test{ 10, 20 };
+	cv::blur(src_img, dst_img, cv::Size(kernelSize, kernelSize));
 
-	std::cout << test.Width() << std::endl;
-	std::cout << test.Height() << std::endl;
+	if (dst == nullptr)
+	{
+		return false;
+	}
+
+	*dst = dst_img;
+
+	return true;
 }
