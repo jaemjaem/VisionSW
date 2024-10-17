@@ -4,37 +4,40 @@
 
 // return false 의 경우 처리 필요
 // 커널 최소 size 21x21
-bool ImageBlur(const ImageObject* src, ImageObject* dst, const int kernelSize)
+namespace opencvfunction
 {
-	if (src == nullptr)
+	bool ImageBlur(const ImageObject* src, ImageObject* dst, const int kernelSize)
 	{
-		return false;
-	}
-	
-	auto src_img = src->Clone();
+		if (src == nullptr)
+		{
+			return false;
+		}
 
-	if (src_img.empty())
-	{
-		return false;
-	}
+		auto src_img = src->CloneMat();
 
-	cv::Mat dst_img;
+		if (src_img.empty())
+		{
+			return false;
+		}
 
-	try
-	{
-		cv::blur(src_img, dst_img, cv::Size(kernelSize, kernelSize));
-	}
-	catch (const std::exception& e)
-	{
-		return false;
-	}
-	
-	if (dst == nullptr)
-	{
-		return false;
-	}
+		cv::Mat dst_img;
 
-	*dst = dst_img;
+		try
+		{
+			cv::blur(src_img, dst_img, cv::Size(kernelSize, kernelSize));
+		}
+		catch (const std::exception& e)
+		{
+			return false;
+		}
 
-	return true;
+		if (dst == nullptr)
+		{
+			return false;
+		}
+
+		*dst = dst_img;
+
+		return true;
+	}
 }

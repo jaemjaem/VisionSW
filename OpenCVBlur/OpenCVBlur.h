@@ -9,4 +9,7 @@
 #endif
 
 
-extern "C" BLURLIBRARY_API bool ImageBlur(const ImageObject* src, ImageObject* dst, const int kernelSize);
+namespace opencvfunction
+{
+	BLURLIBRARY_API bool ImageBlur(const ImageObject* src, ImageObject* dst, const int kernelSize);
+}
