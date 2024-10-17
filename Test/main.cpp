@@ -11,12 +11,17 @@ int main()
 	std::unique_ptr<ImageObject> src_img_obj = std::make_unique<ImageObject>(img);
 	std::unique_ptr<ImageObject> dst_img_obj = std::make_unique<ImageObject>();
 
-	ImageBlur(src_img_obj.get(), dst_img_obj.get(), 10);
+	if (ImageBlur(src_img_obj.get(), dst_img_obj.get(), 21))
+	{
+		auto dst_img = dst_img_obj->Clone();
+
+		cv::imshow("test", dst_img);
+		cv::waitKey();
+	}
+	else
+	{
+		std::cout << "error\n";
+	}
 	
-	const cv::Mat& dst_img = dst_img_obj->Clone();
-
-	cv::imshow("test", dst_img);
-	cv::waitKey();
-
 	return 0;
 }

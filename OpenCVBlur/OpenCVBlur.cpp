@@ -13,10 +13,22 @@ bool ImageBlur(const ImageObject* src, ImageObject* dst, const int kernelSize)
 	
 	auto src_img = src->Clone();
 
+	if (src_img.empty())
+	{
+		return false;
+	}
+
 	cv::Mat dst_img;
 
-	cv::blur(src_img, dst_img, cv::Size(kernelSize, kernelSize));
-
+	try
+	{
+		cv::blur(src_img, dst_img, cv::Size(kernelSize, kernelSize));
+	}
+	catch (const std::exception& e)
+	{
+		return false;
+	}
+	
 	if (dst == nullptr)
 	{
 		return false;
